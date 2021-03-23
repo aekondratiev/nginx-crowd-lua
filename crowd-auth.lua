@@ -72,10 +72,7 @@ local res = crowd:authentication({
 
 -- error out if not successful 
 if res.status ~= 200 then
-  ngx.exit(ngx.HTTP_FORBIDDEN)
+  ngx.header['WWW-Authenticate'] = 'Basic realm="Git Repositories"'
+  ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
--- if we've reached here, then the supplied user/pass is good, so set the
--- resulting cwd_user / cwd_email in nginx so it can be used again
-ngx.var.cwd_user = res.body.name..''
-ngx.var.cwd_email = res.body.email..''
