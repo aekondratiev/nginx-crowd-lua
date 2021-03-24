@@ -70,7 +70,7 @@ local res = crowd:authentication({
   }
 })
 
--- error out if not successful 
+-- try again if not successful 
 if res.status ~= 200 then
   ngx.header['WWW-Authenticate'] = 'Basic realm="Crowd auth"'
   ngx.exit(ngx.HTTP_UNAUTHORIZED)
