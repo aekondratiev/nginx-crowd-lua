@@ -71,7 +71,7 @@ server {
   server_name host.example.com;
   root /var/www/host.example.com;
 
-  location ~ ^/protected/ {
+  location /protected {
     access_by_lua_file /etc/nginx/lua/crowd-auth.lua;
   }
 }
