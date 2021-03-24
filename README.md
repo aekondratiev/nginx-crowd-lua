@@ -2,8 +2,8 @@
 This repository contains a simple [Atlassian Crowd](https://www.atlassian.com/software/crowd) authentication script for [nginx](http://nginx.org/), written
 in [Lua](http://www.lua.org/), for use with the [access_by_lua_file](https://github.com/chaoslawful/lua-nginx-module#access_by_lua_file) directive.
 
-This is used in production on Debian 7.2, running the latest
-[dotdeb](http://www.dotdeb.org) nginx packages. An attempt was made to use as
+This is used in production on Centos7, running the latest
+[openresty](https://openresty.org/en/linux-packages.html) nginx package. An attempt was made to use as
 much "off-the-shelf" packaging as possible. This script relies
 on the use of [lua-Spore](http://fperrad.github.io/lua-Spore/) REST
 client/library.
@@ -18,12 +18,33 @@ Also, please see the related [JIRA Issue](https://jira.atlassian.com/browse/CWD-
 
 ## Installation and Configuration ##
 
-- Install related packages for Lua and lua-Spore dependency:
+- Install openresty package and lua-Spore dependency:
 
 ```
-aptitude install lua5.1 luarocks
-luarocks install luasec
-luarocks install lua-spore
+# add the yum repo:
+wget https://openresty.org/package/centos/openresty.repo
+sudo mv openresty.repo /etc/yum.repos.d/
+
+# update the yum index:
+sudo yum check-update
+
+Then you can install a package, say, openresty, like this:
+
+sudo yum install openresty
+
+# luarocks and lua-Spore
+wget http://luarocks.org/releases/luarocks-2.0.13.tar.gz
+tar -xzvf luarocks-2.0.13.tar.gz
+cd luarocks-2.0.13/
+./configure --prefix=/usr/local/openresty/luajit \
+    --with-lua=/usr/local/openresty/luajit/ \
+    --lua-suffix=jit \
+    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
+make
+sudo make install
+
+/usr/local/openresty/luajit/bin/luarocks install luasec OPENSSL_LIBDIR=/usr/lib64
+/usr/local/openresty/luajit/bin/luarocks install lua-spore
 ```
 
 - Copy the `crowd-auth.lua` to somewhere accessible by nginx:
@@ -51,12 +72,7 @@ server {
   root /var/www/host.example.com;
 
   location ~ ^/protected/ {
-    set $cwd_user 'unknown';
-    set $cwd_email 'unknown@unknown.com';
-
     access_by_lua_file /etc/nginx/lua/crowd-auth.lua;
-
-    fastcgi_param REMOTE_USER $cwd_user;
   }
 }
 ```
