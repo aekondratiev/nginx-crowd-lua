@@ -27,7 +27,7 @@ local auth_header = ngx.req.get_headers().authorization
 
 -- check that the header is present, and if not sead authenticate header
 if not auth_header or auth_header == '' or not string.match(auth_header, '^[Bb]asic ') then
-  ngx.header['WWW-Authenticate'] = 'Basic realm="Git Repositories"'
+  ngx.header['WWW-Authenticate'] = 'Basic realm="Crowd auth"'
   ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
@@ -72,7 +72,7 @@ local res = crowd:authentication({
 
 -- error out if not successful 
 if res.status ~= 200 then
-  ngx.header['WWW-Authenticate'] = 'Basic realm="Git Repositories"'
+  ngx.header['WWW-Authenticate'] = 'Basic realm="Crowd auth"'
   ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
