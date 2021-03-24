@@ -77,13 +77,3 @@ server {
 }
 ```
 
-## Authenticating against Atlassian JIRA or other REST-enabled App ##
-While untried, modifying this script for use authenticating against
-[Atlassian JIRA](https://www.atlassian.com/software/jira) (or other app) should be fairly
-straight forward, as JIRA's REST API is very similar (if not identical) to
-Crowd's. Should you do that, please email me and/or provide a pull request and
-I will gladly integrate the changes within this repository.
-
-Similarly, should you find this useful in negotiating authentication against
-any other apps, please let me know via email, and/or provide a pull request, so
-that fellow devops teams do not need to continously reinvent the wheel ;).
