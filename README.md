@@ -22,14 +22,9 @@ Also, please see the related [JIRA Issue](https://jira.atlassian.com/browse/CWD-
 
 ```
 # add the yum repo:
-wget https://openresty.org/package/centos/openresty.repo
-sudo mv openresty.repo /etc/yum.repos.d/
+wget https://openresty.org/package/centos/openresty.repo -O /etc/yum.repos.d/openresty.repo
 
-# update the yum index:
-sudo yum check-update
-
-Then you can install a package, say, openresty, like this:
-
+# then you can install a package, say, openresty, like this:
 sudo yum install openresty
 
 # luarocks and lua-Spore
