@@ -38,6 +38,10 @@ cd luarocks-2.0.13/
 make
 sudo make install
 
+# ssl depency
+sudo yum install openssl-devel
+
+# luasec and lua-spore
 /usr/local/openresty/luajit/bin/luarocks install luasec OPENSSL_LIBDIR=/usr/lib64
 /usr/local/openresty/luajit/bin/luarocks install lua-spore
 ```
